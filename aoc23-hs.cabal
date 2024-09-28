@@ -35,6 +35,8 @@ library
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
       base >=4.7 && <5
+    , filepath >=1.4 && <2
+    , hslogger >=1.3 && <2
   default-language: Haskell2010
 
 executable aoc23-hs-exe
@@ -49,6 +51,8 @@ executable aoc23-hs-exe
   build-depends:
       aoc23-hs
     , base >=4.7 && <5
+    , filepath >=1.4 && <2
+    , hslogger >=1.3 && <2
   default-language: Haskell2010
 
 test-suite aoc23-hs-test
@@ -64,4 +68,6 @@ test-suite aoc23-hs-test
   build-depends:
       aoc23-hs
     , base >=4.7 && <5
+    , filepath >=1.4 && <2
+    , hslogger >=1.3 && <2
   default-language: Haskell2010

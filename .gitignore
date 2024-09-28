@@ -31,3 +31,6 @@ cabal.project.local~
 *.vsix
 
 .idea/
+
+# Puzzle inputs
+input/

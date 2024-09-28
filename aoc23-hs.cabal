@@ -25,7 +25,8 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Day1
+      Utils
   other-modules:
       Paths_aoc23_hs
   autogen-modules:

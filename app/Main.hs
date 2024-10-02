@@ -25,6 +25,7 @@ main = do
     calibrationLines <- readCalibrationDocument
     case recoverCalibrationValues calibrationLines of
         Just calibrationValues -> do
+            logM logger INFO $ "Calibration values: " ++ show calibrationValues
             putStrLn $ "Sum of calibration values: " ++ show (sum calibrationValues)
         Nothing -> do
             logM logger CRITICAL "Not all lines in the calibration document contained a calibration value."

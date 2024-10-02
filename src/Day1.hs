@@ -1,16 +1,15 @@
 module Day1 (readCalibrationDocument, recoverCalibrationValues) where
 
-import Utils (inputDir)
+import Utils (readInputFile)
 
 import Data.Char (isDigit)
 import Data.Foldable (find)
-import System.FilePath ((</>))
 
-calibrationDocumentFile :: FilePath
-calibrationDocumentFile = inputDir </> "day1.txt"
+calibrationDocumentFileName :: FilePath
+calibrationDocumentFileName = "day1.txt"
 
 readCalibrationDocument :: IO [String]
-readCalibrationDocument = lines <$> readFile calibrationDocumentFile
+readCalibrationDocument = readInputFile calibrationDocumentFileName id
 
 recoverCalibrationValues :: [String] -> Maybe [Int]
 recoverCalibrationValues = traverse recoverCalibrationValue

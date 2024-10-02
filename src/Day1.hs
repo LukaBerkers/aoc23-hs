@@ -6,12 +6,12 @@ import Data.Char (isDigit)
 import Data.Foldable (find)
 import System.FilePath ((</>))
 
-calibrationDocumentFileName :: FilePath
-calibrationDocumentFileName = inputDir </> "day1.txt"
+calibrationDocumentFilePath :: FilePath
+calibrationDocumentFilePath = inputDir </> "day1.txt"
 
 -- | Reads the calibration document and returns the lines as a list of strings.
 readCalibrationDocument :: IO [String]
-readCalibrationDocument = readInputFile calibrationDocumentFileName id
+readCalibrationDocument = readInputFile calibrationDocumentFilePath id
 
 {- | Recovers the calibration values from the calibration document lines.
 

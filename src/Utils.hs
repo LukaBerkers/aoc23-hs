@@ -1,9 +1,7 @@
-module Utils (readInputFile) where
-
-import System.FilePath ((</>))
+module Utils (readInputFile, inputDir) where
 
 inputDir :: FilePath
 inputDir = "input"
 
 readInputFile :: FilePath -> (String -> a) -> IO [a]
-readInputFile inputFileName lineParser = map lineParser . lines <$> readFile (inputDir </> inputFileName)
+readInputFile filePath lineParser = map lineParser . lines <$> readFile filePath

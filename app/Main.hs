@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Day2 (readGameRecords)
+import Day2 (cubeThresholds, possibleGameIds, readGameRecords)
 import System.IO (stderr)
 import System.Log.Formatter (simpleLogFormatter)
 import System.Log.Handler (setFormatter)
@@ -31,4 +31,7 @@ main = do
     gameRecordsResult <- readGameRecords
     case gameRecordsResult of
         Left _ -> logM logger CRITICAL "Failed to parse the game records."
-        Right gameRecords -> putStrLn $ "Game records: " ++ show gameRecords
+        Right gameRecords ->
+            putStrLn $
+                "Sum of possible game ids: "
+                    ++ show (sum $ possibleGameIds cubeThresholds gameRecords)

@@ -1,4 +1,15 @@
-module Day2 (Game, readGameRecords) where
+module Day2 (
+    -- * Data types
+    Game,
+    Reveal,
+
+    -- * File reading
+    readGameRecords,
+
+    -- * Cube counting logic
+    cubeThresholds,
+    possibleGameIds,
+) where
 
 import Data.Either.Combinators (whenLeft)
 import System.FilePath ((</>))
@@ -23,6 +34,7 @@ import Utils (inputDir, readInputFile)
 data Game = Game {gameId :: Int, gameReveals :: [Reveal]}
     deriving (Show)
 
+-- | The number of red, green, and blue cubes revealed.
 data Reveal = Reveal {revealRedCount :: Int, revealGreenCount :: Int, revealBlueCount :: Int}
     deriving (Show)
 
@@ -30,7 +42,7 @@ moduleName :: String
 moduleName = "Day2"
 
 gameRecordsFilePath :: FilePath
-gameRecordsFilePath = inputDir </> "test.txt"
+gameRecordsFilePath = inputDir </> "day2.txt"
 
 {- | Reads the game records from the input file.
 
@@ -70,3 +82,24 @@ colorCountP = do
     count <- intP <* space
     color <- string "red" <|> string "green" <|> string "blue"
     return (count, color)
+
+-- | The given thresholds for the number of cubes that can be revealed, for a game to be possible.
+cubeThresholds :: Reveal
+cubeThresholds = Reveal 12 13 14
+
+{- | Returns the ids of the games that are possible with the given thresholds.
+
+A game is possible if all of its reveals are possible.
+A reveal is possible if for each color,
+the number of cubes is less than or equal to the number of cubes with that color
+revealed in the threshold.
+-}
+possibleGameIds :: Reveal -> [Game] -> [Int]
+possibleGameIds thresholds = map gameId . filter (isPossible thresholds . gameReveals)
+
+isPossible :: Reveal -> [Reveal] -> Bool
+isPossible thresholds = all (isPossibleReveal thresholds)
+
+isPossibleReveal :: Reveal -> Reveal -> Bool
+isPossibleReveal (Reveal red green blue) (Reveal red' green' blue') =
+    red' <= red && green' <= green && blue' <= blue

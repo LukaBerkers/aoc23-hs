@@ -1,17 +1,16 @@
 module Day1 (readCalibrationDocument, recoverCalibrationValues) where
 
-import Utils (inputDir, readInputFile)
-
 import Data.Char (isDigit)
 import Data.Foldable (find)
 import System.FilePath ((</>))
+import Utils (inputDir, readInputLines)
 
 calibrationDocumentFilePath :: FilePath
 calibrationDocumentFilePath = inputDir </> "day1.txt"
 
 -- | Reads the calibration document and returns the lines as a list of strings.
 readCalibrationDocument :: IO [String]
-readCalibrationDocument = readInputFile calibrationDocumentFilePath id
+readCalibrationDocument = readInputLines calibrationDocumentFilePath id
 
 {- | Recovers the calibration values from the calibration document lines.
 
@@ -38,15 +37,15 @@ _findLastDigit = find isDigit . reverse
 
 findFirstDigit :: String -> Maybe Char
 findFirstDigit [] = Nothing
-findFirstDigit ('o':'n':'e':_) = Just '1'
-findFirstDigit ('t':'w':'o':_) = Just '2'
-findFirstDigit ('t':'h':'r':'e':'e':_) = Just '3'
-findFirstDigit ('f':'o':'u':'r':_) = Just '4'
-findFirstDigit ('f':'i':'v':'e':_) = Just '5'
-findFirstDigit ('s':'i':'x':_) = Just '6'
-findFirstDigit ('s':'e':'v':'e':'n':_) = Just '7'
-findFirstDigit ('e':'i':'g':'h':'t':_) = Just '8'
-findFirstDigit ('n':'i':'n':'e':_) = Just '9'
+findFirstDigit ('o' : 'n' : 'e' : _) = Just '1'
+findFirstDigit ('t' : 'w' : 'o' : _) = Just '2'
+findFirstDigit ('t' : 'h' : 'r' : 'e' : 'e' : _) = Just '3'
+findFirstDigit ('f' : 'o' : 'u' : 'r' : _) = Just '4'
+findFirstDigit ('f' : 'i' : 'v' : 'e' : _) = Just '5'
+findFirstDigit ('s' : 'i' : 'x' : _) = Just '6'
+findFirstDigit ('s' : 'e' : 'v' : 'e' : 'n' : _) = Just '7'
+findFirstDigit ('e' : 'i' : 'g' : 'h' : 't' : _) = Just '8'
+findFirstDigit ('n' : 'i' : 'n' : 'e' : _) = Just '9'
 findFirstDigit (c : cs)
     | isDigit c = Just c
     | otherwise = findFirstDigit cs
@@ -56,15 +55,15 @@ findLastDigit = findDigitBackwards . reverse
 
 findDigitBackwards :: String -> Maybe Char
 findDigitBackwards [] = Nothing
-findDigitBackwards ('e':'n':'o':_) = Just '1'
-findDigitBackwards ('o':'w':'t':_) = Just '2'
-findDigitBackwards ('e':'e':'r':'h':'t':_) = Just '3'
-findDigitBackwards ('r':'u':'o':'f':_) = Just '4'
-findDigitBackwards ('e':'v':'i':'f':_) = Just '5'
-findDigitBackwards ('x':'i':'s':_) = Just '6'
-findDigitBackwards ('n':'e':'v':'e':'s':_) = Just '7'
-findDigitBackwards ('t':'h':'g':'i':'e':_) = Just '8'
-findDigitBackwards ('e':'n':'i':'n':_) = Just '9'
+findDigitBackwards ('e' : 'n' : 'o' : _) = Just '1'
+findDigitBackwards ('o' : 'w' : 't' : _) = Just '2'
+findDigitBackwards ('e' : 'e' : 'r' : 'h' : 't' : _) = Just '3'
+findDigitBackwards ('r' : 'u' : 'o' : 'f' : _) = Just '4'
+findDigitBackwards ('e' : 'v' : 'i' : 'f' : _) = Just '5'
+findDigitBackwards ('x' : 'i' : 's' : _) = Just '6'
+findDigitBackwards ('n' : 'e' : 'v' : 'e' : 's' : _) = Just '7'
+findDigitBackwards ('t' : 'h' : 'g' : 'i' : 'e' : _) = Just '8'
+findDigitBackwards ('e' : 'n' : 'i' : 'n' : _) = Just '9'
 findDigitBackwards (c : cs)
     | isDigit c = Just c
     | otherwise = findDigitBackwards cs

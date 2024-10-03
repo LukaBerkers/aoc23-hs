@@ -30,5 +30,5 @@ main = do
 
     gameRecordsResult <- readGameRecords
     case gameRecordsResult of
-        Left err -> logM logger CRITICAL $ "Failed to read game records: " ++ show err
-        Right gameRecords -> logM logger INFO $ "Game records: " ++ show gameRecords
+        Left _ -> logM logger CRITICAL "Failed to parse the game records."
+        Right gameRecords -> putStrLn $ "Game records: " ++ show gameRecords

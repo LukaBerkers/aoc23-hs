@@ -1,6 +1,8 @@
 module Day2 (Game, readGameRecords) where
 
+import Data.Either.Combinators (whenLeft)
 import System.FilePath ((</>))
+import System.Log.Logger (Priority (ERROR), logM)
 import Text.Parsec (
     ParseError,
     char,
@@ -24,6 +26,9 @@ data Game = Game {gameId :: Int, gameReveals :: [Reveal]}
 data Reveal = Reveal {revealRedCount :: Int, revealGreenCount :: Int, revealBlueCount :: Int}
     deriving (Show)
 
+moduleName :: String
+moduleName = "Day2"
+
 gameRecordsFilePath :: FilePath
 gameRecordsFilePath = inputDir </> "test.txt"
 
@@ -34,7 +39,11 @@ If the file cannot be parsed, this returns a 'ParseError'.
 If the file is parsed successfully, this returns a list of the recorded 'Game's.
 -}
 readGameRecords :: IO (Either ParseError [Game])
-readGameRecords = readInputFile gameRecordsFilePath parseGameRecordsFile
+readGameRecords = do
+    let logger = moduleName ++ ".readGameRecords"
+    result <- readInputFile gameRecordsFilePath parseGameRecordsFile
+    whenLeft result $ \err -> logM logger ERROR $ show err
+    return result
 
 parseGameRecordsFile :: String -> Either ParseError [Game]
 parseGameRecordsFile = parse (gameP `endBy` endOfLine) ""

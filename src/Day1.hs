@@ -9,7 +9,7 @@ calibrationDocumentFilePath :: FilePath
 calibrationDocumentFilePath = inputDir </> "day1.txt"
 
 -- | Reads the calibration document and returns the lines as a list of strings.
-readCalibrationDocument :: IO [String]
+readCalibrationDocument :: IO (Either IOError [String])
 readCalibrationDocument = readInputLines calibrationDocumentFilePath id
 
 {- | Recovers the calibration values from the calibration document lines.

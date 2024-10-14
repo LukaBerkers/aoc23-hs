@@ -2,18 +2,17 @@ module Day2 (
     -- * Data types
     Game,
     Reveal,
+    InputError (..),
 
     -- * File reading
     readGameRecords,
 
     -- * Cube counting logic
     cubeThresholds,
-    possibleGameIds,
+    findPossibleGameIds,
 ) where
 
-import Data.Either.Combinators (whenLeft)
 import System.FilePath ((</>))
-import System.Log.Logger (Priority (ERROR), logM)
 import Text.Parsec (
     ParseError,
     char,
@@ -38,8 +37,9 @@ data Game = Game {gameId :: Int, gameReveals :: [Reveal]}
 data Reveal = Reveal {revealRedCount :: Int, revealGreenCount :: Int, revealBlueCount :: Int}
     deriving (Show)
 
-moduleName :: String
-moduleName = "Day2"
+-- | Represents errors that can occur when reading and parsing a file.
+data InputError = ReadError IOError | ParseError ParseError
+    deriving (Show)
 
 gameRecordsFilePath :: FilePath
 gameRecordsFilePath = inputDir </> "day2.txt"
@@ -47,15 +47,17 @@ gameRecordsFilePath = inputDir </> "day2.txt"
 {- | Reads the game records from the input file.
 
 This function performs an IO operation to read game records.
-If the file cannot be parsed, this returns a 'ParseError'.
+If the file cannot be read, this returns a v'ReadError'.
+If the file cannot be parsed, this returns a v'ParseError'.
 If the file is parsed successfully, this returns a list of the recorded 'Game's.
 -}
-readGameRecords :: IO (Either ParseError [Game])
+readGameRecords :: IO (Either InputError [Game])
 readGameRecords = do
-    let logger = moduleName ++ ".readGameRecords"
-    result <- readInputFile gameRecordsFilePath parseGameRecordsFile
-    whenLeft result $ \err -> logM logger ERROR $ show err
-    return result
+    readResult <- readInputFile gameRecordsFilePath parseGameRecordsFile
+    return $ case readResult of
+        Left readErr -> Left $ ReadError readErr
+        Right (Left parseErr) -> Left $ ParseError parseErr
+        Right (Right games) -> Right games
 
 parseGameRecordsFile :: String -> Either ParseError [Game]
 parseGameRecordsFile = parse (gameP `endBy` endOfLine) ""
@@ -94,11 +96,11 @@ A reveal is possible if for each color,
 the number of cubes is less than or equal to the number of cubes with that color
 revealed in the threshold.
 -}
-possibleGameIds :: Reveal -> [Game] -> [Int]
-possibleGameIds thresholds = map gameId . filter (isPossible thresholds . gameReveals)
+findPossibleGameIds :: Reveal -> [Game] -> [Int]
+findPossibleGameIds thresholds = map gameId . filter (isPossibleGame thresholds)
 
-isPossible :: Reveal -> [Reveal] -> Bool
-isPossible thresholds = all (isPossibleReveal thresholds)
+isPossibleGame :: Reveal -> Game -> Bool
+isPossibleGame thresholds = all (isPossibleReveal thresholds) . gameReveals
 
 isPossibleReveal :: Reveal -> Reveal -> Bool
 isPossibleReveal (Reveal red green blue) (Reveal red' green' blue') =

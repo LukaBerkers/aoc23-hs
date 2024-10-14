@@ -1,18 +1,12 @@
 module Main (main) where
 
-import Day2 (cubeThresholds, possibleGameIds, readGameRecords)
+import Day2 (cubeThresholds, findPossibleGameIds, readGameRecords)
 import System.IO (stderr)
+import System.Log (Priority (..))
 import System.Log.Formatter (simpleLogFormatter)
 import System.Log.Handler (setFormatter)
 import System.Log.Handler.Simple (streamHandler)
-import System.Log.Logger (
-    Priority (..),
-    logM,
-    rootLoggerName,
-    setHandlers,
-    setLevel,
-    updateGlobalLogger,
- )
+import System.Log.Logger (logM, rootLoggerName, setHandlers, setLevel, updateGlobalLogger)
 
 moduleName :: String
 moduleName = "Main"
@@ -30,8 +24,9 @@ main = do
 
     gameRecordsResult <- readGameRecords
     case gameRecordsResult of
-        Left _ -> logM logger CRITICAL "Failed to parse the game records."
-        Right gameRecords ->
-            putStrLn $
-                "Sum of possible game ids: "
-                    ++ show (sum $ possibleGameIds cubeThresholds gameRecords)
+        Left err -> do
+            logM logger CRITICAL $ show err
+            putStrLn "Failed to read or parse the game records."
+        Right gameRecords -> do
+            let possibleGameIds = findPossibleGameIds cubeThresholds gameRecords
+            putStrLn $ "Sum of possible game IDs: " ++ show (sum possibleGameIds)

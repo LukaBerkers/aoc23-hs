@@ -1,7 +1,7 @@
 module Day2 (
     -- * Data types
     Game,
-    Reveal,
+    CubeSet,
     InputError (..),
 
     -- * File reading
@@ -30,11 +30,11 @@ import Text.Parsec.String (Parser)
 import Utils (inputDir, readInputFile)
 
 -- | A game with an id and a list of revealed cubes.
-data Game = Game {gameId :: Int, gameReveals :: [Reveal]}
+data Game = Game {gameId :: Int, gameReveals :: [CubeSet]}
     deriving (Show)
 
--- | The number of red, green, and blue cubes revealed.
-data Reveal = Reveal {revealRedCount :: Int, revealGreenCount :: Int, revealBlueCount :: Int}
+-- | A set of red, green, and blue cubes.
+data CubeSet = CubeSet {csRedCount :: Int, csGreenCount :: Int, csBlueCount :: Int}
     deriving (Show)
 
 -- | Represents errors that can occur when reading and parsing a file.
@@ -71,13 +71,13 @@ gameP = do
     reveals <- revealP `sepBy1` (char ';' <* space)
     return $ Game identifier reveals
 
-revealP :: Parser Reveal
+revealP :: Parser CubeSet
 revealP = do
     counts <- colorCountP `sepBy1` (char ',' <* space)
     let redCount = sum [count | (count, "red") <- counts]
         greenCount = sum [count | (count, "green") <- counts]
         blueCount = sum [count | (count, "blue") <- counts]
-    return $ Reveal redCount greenCount blueCount
+    return $ CubeSet redCount greenCount blueCount
 
 colorCountP :: Parser (Int, String)
 colorCountP = do
@@ -86,8 +86,8 @@ colorCountP = do
     return (count, color)
 
 -- | The given thresholds for the number of cubes that can be revealed, for a game to be possible.
-cubeThresholds :: Reveal
-cubeThresholds = Reveal 12 13 14
+cubeThresholds :: CubeSet
+cubeThresholds = CubeSet 12 13 14
 
 {- | Returns the ids of the games that are possible with the given thresholds.
 
@@ -96,12 +96,12 @@ A reveal is possible if for each color,
 the number of cubes is less than or equal to the number of cubes with that color
 revealed in the threshold.
 -}
-findPossibleGameIds :: Reveal -> [Game] -> [Int]
+findPossibleGameIds :: CubeSet -> [Game] -> [Int]
 findPossibleGameIds thresholds = map gameId . filter (isPossibleGame thresholds)
 
-isPossibleGame :: Reveal -> Game -> Bool
+isPossibleGame :: CubeSet -> Game -> Bool
 isPossibleGame thresholds = all (isPossibleReveal thresholds) . gameReveals
 
-isPossibleReveal :: Reveal -> Reveal -> Bool
-isPossibleReveal (Reveal red green blue) (Reveal red' green' blue') =
+isPossibleReveal :: CubeSet -> CubeSet -> Bool
+isPossibleReveal (CubeSet red green blue) (CubeSet red' green' blue') =
     red' <= red && green' <= green && blue' <= blue

@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Day2 (cubeThresholds, findPossibleGameIds, readGameRecords)
+import Day2 (getCubeSetPower, getMinimumCubeSets, readGameRecords)
 import System.IO (stderr)
 import System.Log (Priority (..))
 import System.Log.Formatter (simpleLogFormatter)
@@ -28,5 +28,7 @@ main = do
             logM logger CRITICAL $ show err
             putStrLn "Failed to read or parse the game records."
         Right gameRecords -> do
-            let possibleGameIds = findPossibleGameIds cubeThresholds gameRecords
-            putStrLn $ "Sum of possible game IDs: " ++ show (sum possibleGameIds)
+            let minCubeSets = getMinimumCubeSets gameRecords
+            let minCubeSetPowers = map getCubeSetPower minCubeSets
+            logM logger INFO $ "Minimum cube set powers: " ++ show minCubeSetPowers
+            putStrLn $ "Sum of minimum cube set powers: " ++ show (sum minCubeSetPowers)

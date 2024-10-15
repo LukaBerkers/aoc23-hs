@@ -10,6 +10,8 @@ module Day2 (
     -- * Cube counting logic
     cubeThresholds,
     findPossibleGameIds,
+    getMinimumCubeSets,
+    getCubeSetPower,
 ) where
 
 import System.FilePath ((</>))
@@ -105,3 +107,22 @@ isPossibleGame thresholds = all (isPossibleReveal thresholds) . gameReveals
 isPossibleReveal :: CubeSet -> CubeSet -> Bool
 isPossibleReveal (CubeSet red green blue) (CubeSet red' green' blue') =
     red' <= red && green' <= green && blue' <= blue
+
+{- | Calculates the minimum cube set for each game.
+
+The minimum cube set for a game is the set with the fewest number of cubes of each color,
+that still satisfies the all the game's reveals.
+-}
+getMinimumCubeSets :: [Game] -> [CubeSet]
+getMinimumCubeSets = map getMinimumCubeSet
+
+getMinimumCubeSet :: Game -> CubeSet
+getMinimumCubeSet = foldr maxCubeValues (CubeSet 0 0 0) . gameReveals
+
+maxCubeValues :: CubeSet -> CubeSet -> CubeSet
+maxCubeValues (CubeSet red green blue) (CubeSet red' green' blue') =
+    CubeSet (max red red') (max green green') (max blue blue')
+
+-- | Returns the power value of a given cube set.
+getCubeSetPower :: CubeSet -> Int
+getCubeSetPower (CubeSet red green blue) = red * green * blue

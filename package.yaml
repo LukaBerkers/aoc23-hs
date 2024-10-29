@@ -1,7 +1,7 @@
 name: aoc23-hs
 version: 0.1.0.0
-github: "githubuser/aoc23-hs"
-license: BSD-3-Clause
+github: "LukaBerkers/aoc23-hs"
+license: GPL-3.0-or-later
 author: "Luka Berkers"
 copyright: "2024 Luka Berkers"
 
@@ -16,7 +16,7 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description: Please see the README on GitHub at <https://github.com/githubuser/aoc23-hs#readme>
+description: Please see the README on GitHub at <https://github.com/LukaBerkers/aoc23-hs#readme>.
 
 dependencies:
   - base >= 4.7 && < 5

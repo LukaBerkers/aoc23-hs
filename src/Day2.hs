@@ -51,15 +51,15 @@ import Utils (inputDir, readInputFile)
 
 -- | A game with an id and a list of revealed cubes.
 data Game = Game {gameId :: Int, gameReveals :: [CubeSet]}
-    deriving (Show)
+    deriving (Show, Eq)
 
 -- | A set of red, green, and blue cubes.
 data CubeSet = CubeSet {csRedCount :: Int, csGreenCount :: Int, csBlueCount :: Int}
-    deriving (Show)
+    deriving (Show, Eq)
 
 -- | Represents errors that can occur when reading and parsing a file.
 data InputError = ReadError IOError | ParseError ParseError
-    deriving (Show)
+    deriving (Show, Eq)
 
 gameRecordsFilePath :: FilePath
 gameRecordsFilePath = inputDir </> "day2.txt"

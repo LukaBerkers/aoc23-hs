@@ -1,13 +1,13 @@
-name:                aoc23-hs
-version:             0.1.0.0
-github:              "githubuser/aoc23-hs"
-license:             BSD-3-Clause
-author:              "Luka Berkers"
-copyright:           "2024 Luka Berkers"
+name: aoc23-hs
+version: 0.1.0.0
+github: "githubuser/aoc23-hs"
+license: BSD-3-Clause
+author: "Luka Berkers"
+copyright: "2024 Luka Berkers"
 
 extra-source-files:
-- README.md
-- LICENSE
+  - README.md
+  - LICENSE
 
 # Metadata used when publishing your package
 # synopsis:            Short description of your package
@@ -16,47 +16,47 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/aoc23-hs#readme>
+description: Please see the README on GitHub at <https://github.com/githubuser/aoc23-hs#readme>
 
 dependencies:
-- base >= 4.7 && < 5
-- either >= 5.0 && < 6
-- filepath >= 1.4 && < 2
-- hslogger >= 1.3 && < 2
-- parsec >= 3.1 && < 4
+  - base >= 4.7 && < 5
+  - either >= 5.0 && < 6
+  - filepath >= 1.4 && < 2
+  - hslogger >= 1.3 && < 2
+  - parsec >= 3.1 && < 4
 
 ghc-options:
-- -Wall
-- -Wcompat
-- -Widentities
-- -Wincomplete-record-updates
-- -Wincomplete-uni-patterns
-- -Wmissing-export-lists
-- -Wmissing-home-modules
-- -Wpartial-fields
-- -Wredundant-constraints
+  - -Wall
+  - -Wcompat
+  - -Widentities
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wmissing-export-lists
+  - -Wmissing-home-modules
+  - -Wpartial-fields
+  - -Wredundant-constraints
 
 library:
   source-dirs: src
 
 executables:
   aoc23-hs-exe:
-    main:                Main.hs
-    source-dirs:         app
+    main: Main.hs
+    source-dirs: app
     ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
     dependencies:
-    - aoc23-hs
+      - aoc23-hs
 
 tests:
   aoc23-hs-test:
-    main:                Spec.hs
-    source-dirs:         test
+    main: Spec.hs
+    source-dirs: test
     ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
     dependencies:
-    - aoc23-hs
+      - aoc23-hs

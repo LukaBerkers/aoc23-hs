@@ -16,8 +16,21 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -}
 
-import Day2Spec (day2Spec)
-import Test.Hspec (hspec)
+module Day2Spec (
+    day2Spec,
+) where
 
-main :: IO ()
-main = hspec day2Spec
+import Day2 (CubeSet (..), cubeThresholds)
+import Test.Hspec (SpecWith, describe, it, shouldBe)
+
+day2Spec :: SpecWith ()
+day2Spec = describe "Day2" $ do
+    cubeThresholdsSpec
+
+cubeThresholdsSpec :: SpecWith ()
+cubeThresholdsSpec = describe "cubeThresholds" $ do
+    it "should give exactly the expected thresholds" $ do
+        let actual = cubeThresholds
+        csRedCount actual `shouldBe` 12
+        csGreenCount actual `shouldBe` 13
+        csBlueCount actual `shouldBe` 14

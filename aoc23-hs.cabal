@@ -65,6 +65,7 @@ test-suite aoc23-hs-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Day2Spec
       Paths_aoc23_hs
   autogen-modules:
       Paths_aoc23_hs

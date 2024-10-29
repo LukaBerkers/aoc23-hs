@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 module Day2 (
     -- * Data types
     Game,
-    CubeSet,
+    CubeSet (..),
     InputError (..),
 
     -- * File reading

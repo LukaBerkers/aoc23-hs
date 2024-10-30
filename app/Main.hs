@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 module Main (main) where
 
-import Day2 (getCubeSetPower, getMinimumCubeSets, readGameRecords)
+import Day2 (getCubeSetPower, getMinimumCubeSets, readGameRecords, gameRecordsFilePath)
 import System.IO (stderr)
 import System.Log (Priority (..))
 import System.Log.Formatter (simpleLogFormatter)
@@ -40,7 +40,7 @@ main = do
     configureLogger
     let logger = moduleName ++ ".main"
 
-    gameRecordsResult <- readGameRecords
+    gameRecordsResult <- readGameRecords gameRecordsFilePath
     case gameRecordsResult of
         Left err -> do
             logM logger CRITICAL $ show err

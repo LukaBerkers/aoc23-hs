@@ -23,6 +23,7 @@ module Day2 (
     InputError (..),
 
     -- * File reading
+    gameRecordsFilePath,
     readGameRecords,
 
     -- * Cube counting logic
@@ -61,6 +62,7 @@ data CubeSet = CubeSet {csRedCount :: Int, csGreenCount :: Int, csBlueCount :: I
 data InputError = ReadError IOError | ParseError ParseError
     deriving (Show, Eq)
 
+-- | The path to the game records file.
 gameRecordsFilePath :: FilePath
 gameRecordsFilePath = inputDir </> "day2.txt"
 
@@ -71,9 +73,9 @@ If the file cannot be read, this returns a v'ReadError'.
 If the file cannot be parsed, this returns a v'ParseError'.
 If the file is parsed successfully, this returns a list of the recorded 'Game's.
 -}
-readGameRecords :: IO (Either InputError [Game])
-readGameRecords = do
-    readResult <- readInputFile gameRecordsFilePath parseGameRecordsFile
+readGameRecords :: FilePath -> IO (Either InputError [Game])
+readGameRecords filePath = do
+    readResult <- readInputFile filePath parseGameRecordsFile
     return $ case readResult of
         Left readErr -> Left $ ReadError readErr
         Right (Left parseErr) -> Left $ ParseError parseErr

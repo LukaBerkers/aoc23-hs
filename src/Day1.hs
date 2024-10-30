@@ -16,19 +16,24 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -}
 
-module Day1 (readCalibrationDocument, recoverCalibrationValues) where
+module Day1 (
+    calibrationDocumentFilePath,
+    readCalibrationDocument,
+    recoverCalibrationValues,
+) where
 
 import Data.Char (isDigit)
 import Data.Foldable (find)
 import System.FilePath ((</>))
 import Utils (inputDir, readInputLines)
 
+-- | The path to the calibration document file.
 calibrationDocumentFilePath :: FilePath
 calibrationDocumentFilePath = inputDir </> "day1.txt"
 
 -- | Reads the calibration document and returns the lines as a list of strings.
-readCalibrationDocument :: IO (Either IOError [String])
-readCalibrationDocument = readInputLines calibrationDocumentFilePath id
+readCalibrationDocument :: FilePath -> IO (Either IOError [String])
+readCalibrationDocument filePath = readInputLines filePath id
 
 {- | Recovers the calibration values from the calibration document lines.
 
